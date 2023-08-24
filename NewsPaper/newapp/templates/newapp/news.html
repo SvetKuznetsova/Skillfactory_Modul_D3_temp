@@ -1,0 +1,56 @@
+{% extends 'layout/base.html' %}
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+
+<h1>Все новости</h1>
+{% if news %}
+
+<h3>{{ time_now }}</h3>
+<!-- Здесь мы применяем фильтр date. Он очень похож на метод strftime у даты. С его помощью мы можем выводить дату в нужном нам формате -->
+
+<h3> {{ value1|default_if_none:"ничего" }} </h3>
+<!-- Здесь, если в переменной value1 будет записано None, то выведется текст НИЧЕГО -->
+
+<table class="table">
+    <tr>
+        <th scope="col">
+            Название
+        </th>
+        <th scope="col">
+            Категория
+        </th>
+        <th scope="col">
+            Автор
+        </th>
+        <th scope="col">
+            Дата публикации
+        </th>
+
+    </tr>
+    {% for new in news %}
+    <tr>
+        <td>
+            {{ new.name|multiply:1 }}
+
+        </td>
+        <td>
+            {{ new.get_type_display|safe }}
+        </td>
+        <td>
+            {{ new.description|truncatewords:1 }}
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<!-- Если новостей нет, то сообщаем об этом пользователю  -->
+<h2>No news yet.</h2>
+{% endif %}
+
+{% endblock content %}
